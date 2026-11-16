@@ -63,7 +63,7 @@ import os
 import joblib
 import streamlit as st
 
-# Dapatkan direktori absolut tempat file python ini disimpan
+# Dapatkan direktori absolut tempat file python (main-app.py) ini berada
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 model_path = os.path.join(
@@ -75,10 +75,19 @@ features_path = os.path.join(BASE_DIR, "selected_features_list.pkl")
 @st.cache_resource
 def load_medical_model():
   try:
+    # Cek apakah file benar-benar ada di direktori tersebut
+    if not os.path.exists(model_path) or not os.path.exists(features_path):
+      st.error(
+          f"File tidak ditemukan di path: {BASE_DIR}. Pastikan file .joblib dan"
+          " .pkl ada di folder yang sama dengan main-app.py."
+      )
+      return None, None
+
     model = joblib.load(model_path)
     features = joblib.load(features_path)
     return model, features
   except Exception as e:
+    st.error(f"Error detail: {e}")
     return None, None
 
 
