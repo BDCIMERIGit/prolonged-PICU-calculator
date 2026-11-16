@@ -59,8 +59,6 @@ if "history" not in st.session_state:
 # LOAD MODEL & FITUR TERPELIH
 # ==========================================
 
-
-Python
 import os
 import joblib
 import streamlit as st
