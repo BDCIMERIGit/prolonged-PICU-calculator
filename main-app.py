@@ -60,11 +60,24 @@ if "history" not in st.session_state:
 # ==========================================
 
 
+import os
+import joblib
+import streamlit as st
+
+# Dapatkan direktori absolut tempat file python ini disimpan
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+model_path = os.path.join(
+    BASE_DIR, "logistic_regression_medical_calculator.joblib"
+)
+features_path = os.path.join(BASE_DIR, "selected_features_list.pkl")
+
+
 @st.cache_resource
 def load_medical_model():
   try:
-    model = joblib.load("logistic_regression_medical_calculator.joblib")
-    features = joblib.load("selected_features_list.pkl")
+    model = joblib.load(model_path)
+    features = joblib.load(features_path)
     return model, features
   except Exception as e:
     return None, None
